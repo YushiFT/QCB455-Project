@@ -1,0 +1,336 @@
+---
+title: "Figures for final paper (QCB 455 / COS 551)"
+author: "Yushi Tang"
+date: "1/12/2020"
+output: 
+  html_document:
+    code_folding: show
+    highlight: tango
+    keep_med: true
+    number_sections: false
+    theme: journal
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+      toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Part 0: Initialization
+
+```{r library, eval = TRUE, warning = FALSE, message = FALSE, echo=TRUE}
+library(ggplot2)
+library(gridExtra)
+library(grid)
+library(cowplot)
+```
+
+## Part I: Evaluate simulation bias
+
+#### For all HapMap3 data
+
+```{r simulation_bias_hapmap3, eval=TRUE, warning=FALSE, message=FALSE, echo=TRUE}
+bias_fin <- read.csv('../data/HapMap3.csv')
+
+# mean and variance for different bins
+# for K = 1
+mean(bias_fin$K1)
+var(bias_fin$K1)
+# for K = 2
+mean(bias_fin$K2)
+var(bias_fin$K2)
+# for K = 5
+mean(bias_fin$K5)
+var(bias_fin$K5)
+# for K = 10
+mean(bias_fin$K10)
+var(bias_fin$K10)
+# for K = 20
+mean(bias_fin$K20)
+var(bias_fin$K20)
+
+
+sub1 <- as.data.frame(cbind(bias_fin$K1, rep(1,nrow(bias_fin))))
+sub2 <- as.data.frame(cbind(bias_fin$K2, rep(2,nrow(bias_fin))))
+sub3 <- as.data.frame(cbind(bias_fin$K5, rep(5,nrow(bias_fin))))
+sub4 <- as.data.frame(cbind(bias_fin$K10, rep(10,nrow(bias_fin))))
+sub5 <- as.data.frame(cbind(bias_fin$K20, rep(20,nrow(bias_fin))))
+colnames(sub1) <- c('bias','k')
+colnames(sub2) <- c('bias','k')
+colnames(sub3) <- c('bias','k')
+colnames(sub4) <- c('bias','k')
+colnames(sub5) <- c('bias','k')
+
+
+bias_plot <- rbind(sub1, sub2)
+bias_plot <- rbind(bias_plot, sub3)
+bias_plot <- rbind(bias_plot, sub4)
+bias_plot <- rbind(bias_plot, sub5)
+
+p0 <- ggplot(bias_plot, aes(x = as.factor(k), y = bias)) + 
+        geom_violin(fill='gray96') +  
+        geom_boxplot(width=0.1,fill='lightsalmon') +
+        xlab("K") + 
+        ylab("Bias") +
+        ggtitle("Simulation results for bias estimation within HapMap3 cohort (N = 1,397)") +
+        theme(plot.title=element_text(hjust=0.5, size=rel(1.0))) +
+        theme_bw() +
+        theme(axis.text = element_text(size=rel(1.0)),
+              axis.title = element_text(size=rel(1.0)))
+p0
+
+```
+
+#### For CEU population
+
+```{r simulation_bias_ceu, eval=TRUE, warning=FALSE, message=FALSE, echo=TRUE}
+bias_fin <- read.csv('../data/CEU.csv')
+
+# mean and variance for different bins
+# for K = 1
+mean(bias_fin$K1)
+var(bias_fin$K1)
+# for K = 2
+mean(bias_fin$K2)
+var(bias_fin$K2)
+# for K = 5
+mean(bias_fin$K5)
+var(bias_fin$K5)
+# for K = 10
+mean(bias_fin$K10)
+var(bias_fin$K10)
+# for K = 20
+mean(bias_fin$K20)
+var(bias_fin$K20)
+
+sub1 <- as.data.frame(cbind(bias_fin$K1, rep(1,nrow(bias_fin))))
+sub2 <- as.data.frame(cbind(bias_fin$K2, rep(2,nrow(bias_fin))))
+sub3 <- as.data.frame(cbind(bias_fin$K5, rep(5,nrow(bias_fin))))
+sub4 <- as.data.frame(cbind(bias_fin$K10, rep(10,nrow(bias_fin))))
+sub5 <- as.data.frame(cbind(bias_fin$K20, rep(20,nrow(bias_fin))))
+colnames(sub1) <- c('bias','k')
+colnames(sub2) <- c('bias','k')
+colnames(sub3) <- c('bias','k')
+colnames(sub4) <- c('bias','k')
+colnames(sub5) <- c('bias','k')
+
+
+bias_plot <- rbind(sub1, sub2)
+bias_plot <- rbind(bias_plot, sub3)
+bias_plot <- rbind(bias_plot, sub4)
+bias_plot <- rbind(bias_plot, sub5)
+
+p1 <- ggplot(bias_plot, aes(x = as.factor(k), y = bias)) + 
+        geom_violin(fill='gray96') +  
+        geom_boxplot(width=0.1,fill='indianred1') +
+        xlab("K") + 
+        ylab("Bias") +
+        ggtitle("Simulation results for bias estimation within CEU cohort (N = 165)") +
+        theme(plot.title=element_text(hjust=0.5, size=rel(1.0))) +
+        theme_bw() +
+        theme(axis.text = element_text(size=rel(1.0)),
+              axis.title = element_text(size=rel(1.0)))
+p1
+```
+
+
+#### For CHB population
+
+```{r simulation_bias_chb, eval=TRUE, warning=FALSE, message=FALSE, echo=TRUE}
+bias_fin <- read.csv('../data/CHB.csv')
+
+# mean and variance for different bins
+# for K = 1
+mean(bias_fin$K1)
+var(bias_fin$K1)
+# for K = 2
+mean(bias_fin$K2)
+var(bias_fin$K2)
+# for K = 5
+mean(bias_fin$K5)
+var(bias_fin$K5)
+# for K = 10
+mean(bias_fin$K10)
+var(bias_fin$K10)
+# for K = 20
+mean(bias_fin$K20)
+var(bias_fin$K20)
+
+sub1 <- as.data.frame(cbind(bias_fin$K1, rep(1,nrow(bias_fin))))
+sub2 <- as.data.frame(cbind(bias_fin$K2, rep(2,nrow(bias_fin))))
+sub3 <- as.data.frame(cbind(bias_fin$K5, rep(5,nrow(bias_fin))))
+sub4 <- as.data.frame(cbind(bias_fin$K10, rep(10,nrow(bias_fin))))
+sub5 <- as.data.frame(cbind(bias_fin$K20, rep(20,nrow(bias_fin))))
+colnames(sub1) <- c('bias','k')
+colnames(sub2) <- c('bias','k')
+colnames(sub3) <- c('bias','k')
+colnames(sub4) <- c('bias','k')
+colnames(sub5) <- c('bias','k')
+
+
+bias_plot <- rbind(sub1, sub2)
+bias_plot <- rbind(bias_plot, sub3)
+bias_plot <- rbind(bias_plot, sub4)
+bias_plot <- rbind(bias_plot, sub5)
+
+p2 <- ggplot(bias_plot, aes(x = as.factor(k), y = bias)) + 
+        geom_violin(fill='gray96') +  
+        geom_boxplot(width=0.1,fill='lightslateblue') +
+        xlab("K") + 
+        ylab("Bias") +
+        ggtitle("Simulation results for bias estimation within CHB cohort (N = 137)") +
+        theme(plot.title=element_text(hjust=0.5, size=rel(1.0))) +
+        theme_bw() +
+        theme(axis.text = element_text(size=rel(1.0)),
+              axis.title = element_text(size=rel(1.0)))
+p2
+```
+
+#### For JPT population
+
+```{r simulation_bias_jpt, eval=TRUE, warning=FALSE, message=FALSE, echo=TRUE}
+bias_fin <- read.csv('../data/JPT.csv')
+
+# mean and variance for different bins
+# for K = 1
+mean(bias_fin$K1)
+var(bias_fin$K1)
+# for K = 2
+mean(bias_fin$K2)
+var(bias_fin$K2)
+# for K = 5
+mean(bias_fin$K5)
+var(bias_fin$K5)
+# for K = 10
+mean(bias_fin$K10)
+var(bias_fin$K10)
+# for K = 20
+mean(bias_fin$K20)
+var(bias_fin$K20)
+
+sub1 <- as.data.frame(cbind(bias_fin$K1, rep(1,nrow(bias_fin))))
+sub2 <- as.data.frame(cbind(bias_fin$K2, rep(2,nrow(bias_fin))))
+sub3 <- as.data.frame(cbind(bias_fin$K5, rep(5,nrow(bias_fin))))
+sub4 <- as.data.frame(cbind(bias_fin$K10, rep(10,nrow(bias_fin))))
+sub5 <- as.data.frame(cbind(bias_fin$K20, rep(20,nrow(bias_fin))))
+colnames(sub1) <- c('bias','k')
+colnames(sub2) <- c('bias','k')
+colnames(sub3) <- c('bias','k')
+colnames(sub4) <- c('bias','k')
+colnames(sub5) <- c('bias','k')
+
+
+bias_plot <- rbind(sub1, sub2)
+bias_plot <- rbind(bias_plot, sub3)
+bias_plot <- rbind(bias_plot, sub4)
+bias_plot <- rbind(bias_plot, sub5)
+
+p3 <- ggplot(bias_plot, aes(x = as.factor(k), y = bias)) + 
+        geom_violin(fill='gray96') +  
+        geom_boxplot(width=0.1,fill='lightcoral') +
+        xlab("K") + 
+        ylab("Bias") +
+        ggtitle("Simulation results for bias estimation for JPT (N = 113)") +
+        theme(plot.title=element_text(hjust=0.5, size=rel(1.0))) +
+        theme_bw() +
+        theme(axis.text = element_text(size=rel(1.0)),
+              axis.title = element_text(size=rel(1.0)))
+p3
+```
+
+
+#### For YRI population
+
+```{r simulation_bias_yri, eval=TRUE, warning=FALSE, message=FALSE, echo=TRUE}
+bias_fin <- read.csv('../data/YRI.csv')
+
+# mean and variance for different bins
+# for K = 1
+mean(bias_fin$K1)
+var(bias_fin$K1)
+# for K = 2
+mean(bias_fin$K2)
+var(bias_fin$K2)
+# for K = 5
+mean(bias_fin$K5)
+var(bias_fin$K5)
+# for K = 10
+mean(bias_fin$K10)
+var(bias_fin$K10)
+# for K = 20
+mean(bias_fin$K20)
+var(bias_fin$K20)
+
+sub1 <- as.data.frame(cbind(bias_fin$K1, rep(1,nrow(bias_fin))))
+sub2 <- as.data.frame(cbind(bias_fin$K2, rep(2,nrow(bias_fin))))
+sub3 <- as.data.frame(cbind(bias_fin$K5, rep(5,nrow(bias_fin))))
+sub4 <- as.data.frame(cbind(bias_fin$K10, rep(10,nrow(bias_fin))))
+sub5 <- as.data.frame(cbind(bias_fin$K20, rep(20,nrow(bias_fin))))
+colnames(sub1) <- c('bias','k')
+colnames(sub2) <- c('bias','k')
+colnames(sub3) <- c('bias','k')
+colnames(sub4) <- c('bias','k')
+colnames(sub5) <- c('bias','k')
+
+
+bias_plot <- rbind(sub1, sub2)
+bias_plot <- rbind(bias_plot, sub3)
+bias_plot <- rbind(bias_plot, sub4)
+bias_plot <- rbind(bias_plot, sub5)
+
+p4 <- ggplot(bias_plot, aes(x = as.factor(k), y = bias)) + 
+        geom_violin(fill='gray96') +  
+        geom_boxplot(width=0.1,fill='lightgoldenrod1') +
+        xlab("K") + 
+        ylab("Bias") +
+        ggtitle("Simulation results for bias estimation for YRI (N = 203)") +
+        theme(plot.title=element_text(hjust=0.5, size=rel(1.0))) +
+        theme_bw() +
+        theme(axis.text = element_text(size=rel(1.0)),
+              axis.title = element_text(size=rel(1.0)))
+p4
+```
+
+
+#### Merge all sub-figures
+
+```{r figure_merge, eval=TRUE, echo=TRUE}
+# combined into one figure
+grid.arrange(p1, p2, p3, p4, nrow = 4)
+# adding labels for sub-figures
+plot_grid(p1,p2,p3,p4,
+          ncol=1,
+          labels = c('a','b','c','d'))
+```
+
+
+
+## Part II: Calculate $h^2$
+
+```{r plot_h2, eval=TRUE, echo=TRUE}
+h2_dat <- read.csv("../data/h2_k20_mac1.csv")
+# calculate total heritability explained by genetic effects
+sum(h2_dat$h2)
+# calculate proportion of h2 contributed by each bin
+h2_dat$h2_p = h2_dat$h2/sum(h2_dat$h2)
+# proportion of h2 contributed by ultrarare variants
+sum(h2_dat$h2_p[1])
+
+ggplot(h2_dat, aes(x = MAF, y = h2_p)) + 
+  geom_line(color='purple') +
+  geom_point() +
+  xlab("MAF") + 
+  ylab("Proportion of estimated heritability") +
+  scale_x_continuous(trans='log10', limits = c(1e-3, 1)) +
+  ylim(0,0.30) +
+  ggtitle("The proportion of estimated heritability attributed to each MAF bin") +
+  theme(plot.title=element_text(hjust=0.5, size=rel(1.0))) +
+  theme_bw() +
+  theme(axis.text = element_text(size=rel(1.0)),
+        axis.title = element_text(size=rel(1.0)))
+```
+
